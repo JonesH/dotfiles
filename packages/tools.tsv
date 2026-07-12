@@ -6,25 +6,26 @@
 #
 # binary	macos	debian	notes
 git	brew:git	apt:git
-gh	brew:gh	manual	Debian: add cli.github.com apt repo (keyring + sources.list.d), then apt install gh
-uv	brew:uv	script:https://astral.sh/uv/install.sh	not packaged; Astral installer
+gh	brew:gh	brew:gh	via Linuxbrew; apt alt: cli.github.com repo
+uv	brew:uv	brew:uv	via Linuxbrew (alt: astral installer)
 node	brew:node	apt:nodejs	or via nvm; Debian binary is `node` (pkg nodejs)
-pnpm	brew:pnpm	manual	Debian: `corepack enable pnpm` (ships with node >= 16)
+pnpm	brew:pnpm	brew:pnpm	via Linuxbrew (alt: corepack enable pnpm)
 pipx	brew:pipx	apt:pipx	Debian 12+
 direnv	brew:direnv	apt:direnv
 jq	brew:jq	apt:jq
+unzip	builtin	apt:unzip	macOS ships unzip; Debian needs the package
 vim	brew:vim	apt:vim
 rg	brew:ripgrep	apt:ripgrep	fast grep
 bat	brew:bat	apt:bat	cat with syntax highlight; Debian binary is `batcat` (aliased to bat in os/linux.sh)
 delta	brew:git-delta	apt:git-delta	git pager; pre-trixie Debian: cargo:git-delta
-glow	brew:glow	manual	Debian: Charm apt repo (repo.charm.sh)
-docker	cask:docker	script:https://get.docker.com	Desktop on macOS / convenience script on Debian
-deno	brew:deno	script:https://deno.land/install.sh	not in apt
-rustup	script:https://sh.rustup.rs	script:https://sh.rustup.rs	provides cargo/rustc; run rustup-init with -y
-pyenv	brew:pyenv	script:https://pyenv.run	Debian also needs Python build deps
-nvm	brew:nvm	script:https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh	shell function, not a PATH binary
-hcloud	brew:hcloud	manual	Debian: download binary from github.com/hetznercloud/cli releases
-kubectl	brew:kubernetes-cli	manual	Debian: pkgs.k8s.io apt repo
+glow	brew:glow	brew:glow	via Linuxbrew; apt alt: repo.charm.sh
+docker	cask:docker	-	Debian: host provides it (cloud-init installs docker-ce); skip here
+deno	brew:deno	brew:deno	via Linuxbrew; not in apt
+rustup	script:https://sh.rustup.rs	brew:rustup	provides cargo/rustc; Debian via Linuxbrew
+pyenv	brew:pyenv	brew:pyenv	via Linuxbrew
+nvm	brew:nvm	brew:nvm	shell function (not a PATH binary); via Linuxbrew, set NVM_DIR
+hcloud	brew:hcloud	brew:hcloud	via Linuxbrew; apt alt: hetznercloud/cli release binary
+kubectl	brew:kubernetes-cli	brew:kubernetes-cli	via Linuxbrew; apt alt: pkgs.k8s.io
 gsed	brew:gnu-sed	builtin	Linux `sed` is already GNU; macOS gets `gsed`
 gtimeout	brew:coreutils	builtin	Linux has `timeout`; macOS gets `gtimeout` (used by sync.sh)
-zed	cask:zed	script:https://zed.dev/install.sh	editor (GUI + CLI)
+zed	cask:zed	-	Debian: headless server, skip (GUI editor)

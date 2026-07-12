@@ -32,6 +32,7 @@ git config --system --add safe.directory /work/dotfiles
 su - jones -c '
   set -e
   export PATH="$HOME/.local/bin:$PATH"
+  export DOTFILES_SKIP_BREW=1   # fast test exercises apt/uv; skip the heavy real Homebrew install
   curl -LsSf https://astral.sh/uv/install.sh | sh >/dev/null 2>&1
   echo "uv -> $(uv --version)"
   echo "== bootstrap.sh --packages (stdin closed, unattended) =="

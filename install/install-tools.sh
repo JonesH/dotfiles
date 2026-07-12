@@ -39,15 +39,15 @@ install_one() {
     cargo:*) have cargo || { MANUAL+=("$bin: install rustup/cargo first"); return; }
              if [ "$DRY" = 1 ]; then log_ok "(dry) cargo install ${spec#cargo:}"; else cargo install "${spec#cargo:}"; fi ;;
     script:*) local url="${spec#script:}" sh_args=""
-             # rustup's installer is the only one that prompts; -y makes it unattended.
+             # Some installers (e.g. nvm) require bash, not sh; -y makes rustup unattended.
              case "$bin" in rustup) sh_args="-s -- -y" ;; esac
              if [ "$ALLOW_SCRIPTS" = 1 ] && [ "$DRY" != 1 ]; then
-               log "  curl -LsSf $url | sh $sh_args"
+               log "  curl -LsSf $url | bash $sh_args"
                # sh_args must word-split (rustup gets `-s -- -y`, the only prompting installer)
                # shellcheck disable=SC2086
-               curl -LsSf "$url" | sh $sh_args || log_warn "$bin installer failed"
+               curl -LsSf "$url" | bash $sh_args || log_warn "$bin installer failed"
              else
-               SCRIPTS+=("$bin	curl -LsSf $url | sh $sh_args")
+               SCRIPTS+=("$bin	curl -LsSf $url | bash $sh_args")
              fi ;;
     builtin) log_skip "$bin (builtin on $OS)" ;;
     manual)  MANUAL+=("$bin: $notes") ;;
@@ -58,11 +58,22 @@ install_one() {
 
 [ "$DRY" = 1 ] && log "install-tools — os=$OS (dry run)" || log "install-tools — os=$OS"
 
+# --- ensure Homebrew on Linux when the debian column uses brew: ------------
+# macOS bootstraps brew separately; DOTFILES_SKIP_BREW=1 skips this entirely.
+# Only runs when tools.tsv's debian column actually needs brew, so a box that
+# uses pure apt/cargo never pulls Homebrew.
+if [ "$OS" != darwin ] && [ "${DOTFILES_SKIP_BREW:-0}" != 1 ] \
+   && awk -F'\t' '$3 ~ /^(brew|cask):/ {f=1} END{exit !f}' "$TSV"; then
+  # shellcheck disable=SC2046  # deliberate: expands to --check or to nothing
+  "$DOTFILES_DIR/install/install-brew.sh" $([ "$DRY" = 1 ] && echo --check) || true
+  [ -x /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 # --- tools.tsv -------------------------------------------------------------
 while IFS=$'\t' read -r bin mac deb notes; do
   [ -z "${bin:-}" ] && continue
   case "$bin" in \#*) continue ;; esac
-  if [ "$bin" = nvm ]; then [ -d "$HOME/.nvm" ] && { log_skip "nvm (present)"; continue; }; fi
+  if [ "$bin" = nvm ]; then { [ -d "$HOME/.nvm" ] || { command -v brew >/dev/null 2>&1 && brew list nvm >/dev/null 2>&1; }; } && { log_skip "nvm (present)"; continue; }; fi
   have "$bin" && { log_skip "$bin (present)"; continue; }
   case "$OS" in darwin) install_one "$bin" "$mac" "${notes:-}" ;; *) install_one "$bin" "$deb" "${notes:-}" ;; esac
 done < "$TSV"
