@@ -78,8 +78,11 @@ if [ -f "$UVL" ]; then
       case "$kind" in \#*) continue ;; esac
       case "$kind" in
         install)
-          if [ "$DRY" = 1 ]; then log_ok "(dry) uv tool install $name"
-          else uv tool install "$name" || log_warn "uv tool install $name failed"; fi ;;
+          # strip inline "# comment" from the trailing args, keep flags like --python 3.12
+          rest="${rest%%#*}"
+          if [ "$DRY" = 1 ]; then log_ok "(dry) uv tool install $name $rest"
+          # shellcheck disable=SC2086 -- intentional word-split so flags pass through
+          else uv tool install "$name" $rest || log_warn "uv tool install $name failed"; fi ;;
         uvx)
           # materialise ~/.local/bin/<name> that execs the uvx command
           local_bin="$HOME/.local/bin/$name"

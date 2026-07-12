@@ -7,7 +7,7 @@
 # --- uv tool install (persistent) ---
 install ruff
 install ty
-install aider-chat
+install aider-chat --python 3.12   # pin: numpy has no wheel on newer pythons → avoids source build (needs cc)
 
 # --- uvx wrappers (ephemeral, wrapped as ~/.local/bin/<name>) ---
 uvx fast-agent-mcp uvx fast-agent-mcp
