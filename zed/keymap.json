@@ -4,7 +4,7 @@
     "bindings": {
       "shift-enter": [
         "terminal::SendText",
-        "\r"
+        "\u001b\r"
       ]
     }
   }
