@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# pre-commit — block commits whose staged additions look like secrets.
+# Repo-local guard (set via bootstrap: git config core.hooksPath install/git-hooks).
+set -euo pipefail
+
+# Patterns for common credential formats. Kept strict enough to avoid tripping on
+# the empty placeholders in secrets.example/*.
+patterns='sk-[A-Za-z0-9_-]{20,}|sk-or-v1-[A-Za-z0-9]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|AIza[0-9A-Za-z_-]{30,}'
+
+# Only inspect ADDED lines in the staged diff (ignore the +++ file headers).
+added="$(git diff --cached -U0 --no-color | grep -E '^\+' | grep -vE '^\+\+\+' || true)"
+
+if printf '%s\n' "$added" | grep -Eiq "$patterns"; then
+  echo "✗ pre-commit: a staged change looks like a secret — commit blocked." >&2
+  echo "  Offending line(s):" >&2
+  printf '%s\n' "$added" | grep -Ein "$patterns" | sed 's/^/    /' >&2 || true
+  echo "  → Move the value into ~/.bash_tokens or a *.local file and reference it as \$VAR." >&2
+  echo "    (Override in a real emergency with: git commit --no-verify)" >&2
+  exit 1
+fi
+exit 0

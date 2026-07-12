@@ -1,0 +1,23 @@
+# ~/.ssh/config — managed by dotfiles (~/dotfiles/ssh/config).
+#
+# Host-specific / sensitive entries (real hosts, IPs, deploy keys) live in
+# ~/.ssh/config.local (untracked), Included FIRST so their per-host options win
+# over the "Host *" wildcard below. Template: secrets.example/ssh-config.local.example
+#
+# `IgnoreUnknown UseKeychain` keeps this file portable — UseKeychain is macOS-only
+# and would otherwise error on Linux/WSL.
+
+Include ~/.ssh/config.local
+Include ~/.ssh/config.d/*
+
+Host github.com
+  IgnoreUnknown UseKeychain
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+
+Host *
+  IgnoreUnknown UseKeychain
+  StrictHostKeyChecking no
+  User jones
+  IdentityFile ~/.ssh/id_ed25519

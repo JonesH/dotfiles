@@ -1,0 +1,24 @@
+# bash_tokens.example — copy to ~/.bash_tokens and fill in real values.
+#   cp ~/dotfiles/secrets.example/bash_tokens.example ~/.bash_tokens
+#   chmod 600 ~/.bash_tokens
+# Sourced by bash (~/.bashrc) and zsh (~/.zshrc). NEVER commit the real file.
+# (bootstrap.sh seeds this automatically on a fresh host if it's missing.)
+
+export OPENROUTER_API_KEY=""
+export OPENAI_API_KEY=""
+export ANTHROPIC_ENVIRONMENT_KEY=""
+export HETZNER_API_TOKEN=""
+
+# Container registry
+export REGISTRY_USERNAME=""
+export REGISTRY_PASSWORD=""
+
+# Telegram
+export TELEGRAM_API_ID=""
+export TELEGRAM_API_HASH=""
+export TELEGRAM_BOT_TOKEN=""
+export TELEGRAM_PHONE_NUMBER=""
+export TELEGRAM_ID=""
+
+# Misc
+export DISCORD_TOKEN=""

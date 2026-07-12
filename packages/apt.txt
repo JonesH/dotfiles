@@ -1,0 +1,21 @@
+# apt.txt — optional Debian/WSL package baseline. Applied only on demand:
+#   sudo apt-get update && sudo apt-get install -y $(grep -vE '^\s*#|^\s*$' ~/dotfiles/packages/apt.txt)
+# (bootstrap.sh --packages does this for you.) Keep in sync with packages/Brewfile.
+#
+# Note: some tools differ from macOS —
+#   - `delta` is the `git-delta` package (Debian 13+); older releases use cargo: `cargo install git-delta`
+#   - node/pnpm/uv/pyenv are often installed via their own installers, not apt
+
+git
+gh
+bash
+bash-completion
+direnv
+jq
+vim
+curl
+ca-certificates
+git-delta
+python3
+python3-venv
+pipx

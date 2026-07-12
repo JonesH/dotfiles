@@ -1,0 +1,10 @@
+# Global gitignore → ~/.config/git/ignore (deduped; the live file had one line ×13)
+
+# Claude local overrides (machine/project-specific, never shared)
+**/CLAUDE.local.md
+**/.claude/settings.local.json
+
+# OS / editor cruft
+.DS_Store
+*.swp
+*~

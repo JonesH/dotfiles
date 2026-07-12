@@ -1,0 +1,67 @@
+# ~/.bashrc — thin loader. Real config lives in ~/.config/bash/*.sh (symlinked
+# from ~/dotfiles/bash/). Edit those, not this file. Synced across hosts.
+
+# --- bash-only history behaviour -------------------------------------------
+shopt -s histappend
+shopt -s checkwinsize
+PROMPT_COMMAND="history -a; history -c; history -r"
+
+# --- Load shared modules ---------------------------------------------------
+_bashcfg="$HOME/.config/bash"
+for _m in env paths aliases functions prompt; do
+  [ -r "$_bashcfg/$_m.sh" ] && . "$_bashcfg/$_m.sh"
+done
+
+# --- OS-specific layer -----------------------------------------------------
+case "$(uname -s)" in
+  Darwin)
+    [ -r "$_bashcfg/os/darwin.sh" ] && . "$_bashcfg/os/darwin.sh" ;;
+  Linux)
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+      [ -r "$_bashcfg/os/wsl.sh" ] && . "$_bashcfg/os/wsl.sh"
+    else
+      [ -r "$_bashcfg/os/linux.sh" ] && . "$_bashcfg/os/linux.sh"
+    fi ;;
+esac
+unset _m _bashcfg
+
+# --- Interactive-only integrations -----------------------------------------
+case $- in
+  *i*)
+    # direnv
+    command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
+
+    # pipx argcomplete
+    if command -v pipx >/dev/null 2>&1 && command -v register-python-argcomplete >/dev/null 2>&1; then
+      eval "$(register-python-argcomplete pipx)" 2>/dev/null
+    fi
+
+    # deno completions (if installed by the deno installer)
+    [ -r "$HOME/.local/share/bash-completion/completions/deno.bash" ] && \
+      . "$HOME/.local/share/bash-completion/completions/deno.bash"
+
+    # custom completion drop-in dirs
+    if [ -d "$HOME/.bash_completion.d" ]; then
+      for _c in "$HOME"/.bash_completion.d/*sh; do [ -r "$_c" ] && . "$_c"; done
+    fi
+    if [ -d "$HOME/.bash_completions.d" ]; then
+      for _c in "$HOME"/.bash_completions.d/*; do [ -r "$_c" ] && . "$_c"; done
+    fi
+    unset _c
+
+    # aider rc
+    [ -f "$HOME/.aiderrc" ] && . "$HOME/.aiderrc"
+
+    # lean-ctx shell hook
+    [ -f "$HOME/.lean-ctx/shell-hook.bash" ] && . "$HOME/.lean-ctx/shell-hook.bash"
+
+    # dotfiles background self-sync (throttled, detached, non-blocking)
+    [ -r "$HOME/dotfiles/install/sync-hook.sh" ] && . "$HOME/dotfiles/install/sync-hook.sh"
+    ;;
+esac
+
+# --- Local secrets (never tracked) -----------------------------------------
+[ -f "$HOME/.bash_tokens" ] && . "$HOME/.bash_tokens"
+
+# --- Per-host overrides (never tracked) ------------------------------------
+[ -f "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"

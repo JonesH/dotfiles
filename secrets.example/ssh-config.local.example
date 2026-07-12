@@ -1,0 +1,17 @@
+# ssh-config.local.example — copy to ~/.ssh/config.local and add your real hosts.
+#   cp ~/dotfiles/secrets.example/ssh-config.local.example ~/.ssh/config.local
+#   chmod 600 ~/.ssh/config.local
+# Included by ~/.ssh/config BEFORE "Host *", so per-host options here win.
+# Keep real IPs / internal hostnames / deploy-key names out of the tracked repo.
+
+# Host myserver
+#     HostName 203.0.113.10
+#     User deploy
+#     IdentityFile ~/.ssh/id_ed25519
+#     IdentitiesOnly yes
+
+# Host storagebox
+#     HostName uXXXXXX.your-storagebox.de
+#     Port 23
+#     User uXXXXXX
+#     IdentityFile ~/.ssh/id_ed25519

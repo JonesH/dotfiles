@@ -1,0 +1,48 @@
+# ~/.zshrc — zsh is a SECONDARY shell here (the login shell is bash). It reuses
+# the same env/paths/aliases/functions modules as bash to avoid duplication;
+# only oh-my-zsh and zsh-only bits live below.
+
+# deno completions dir on FPATH
+if [ -d "$HOME/.zsh/completions" ]; then
+  case ":$FPATH:" in *":$HOME/.zsh/completions:"*) ;; *) export FPATH="$HOME/.zsh/completions:$FPATH" ;; esac
+fi
+
+# --- oh-my-zsh -------------------------------------------------------------
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="tjkirch_mod"
+zstyle ':omz:update' mode auto
+plugins=(git)
+[ -r "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
+
+# --- shared modules (single source of truth, defined once for both shells) --
+_bashcfg="$HOME/.config/bash"
+for _m in env paths aliases functions; do
+  [ -r "$_bashcfg/$_m.sh" ] && source "$_bashcfg/$_m.sh"
+done
+case "$(uname -s)" in
+  Darwin)
+    [ -r "$_bashcfg/os/darwin.sh" ] && source "$_bashcfg/os/darwin.sh" ;;
+  Linux)
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+      [ -r "$_bashcfg/os/wsl.sh" ] && source "$_bashcfg/os/wsl.sh"
+    else
+      [ -r "$_bashcfg/os/linux.sh" ] && source "$_bashcfg/os/linux.sh"
+    fi ;;
+esac
+unset _m _bashcfg
+
+# --- zsh-only extras -------------------------------------------------------
+# Google Cloud SDK (if installed)
+[ -f "$HOME/google-cloud-sdk/path.zsh.inc" ] && . "$HOME/google-cloud-sdk/path.zsh.inc"
+[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ] && . "$HOME/google-cloud-sdk/completion.zsh.inc"
+
+# GNU sed (brew) ahead of BSD sed
+if command -v brew >/dev/null 2>&1; then
+  _gs="$(brew --prefix gnu-sed 2>/dev/null)/libexec/gnubin"
+  [ -d "$_gs" ] && case ":$PATH:" in *":$_gs:"*) ;; *) export PATH="$_gs:$PATH" ;; esac
+  unset _gs
+fi
+
+# --- secrets + per-host overrides (never tracked) --------------------------
+[ -f "$HOME/.bash_tokens" ] && . "$HOME/.bash_tokens"
+[ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"

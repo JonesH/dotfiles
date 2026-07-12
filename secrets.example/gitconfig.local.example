@@ -1,0 +1,10 @@
+# gitconfig.local.example — copy to ~/.gitconfig.local for per-host overrides.
+#   cp ~/dotfiles/secrets.example/gitconfig.local.example ~/.gitconfig.local
+# Included at the bottom of ~/.gitconfig. Use for a work identity, commit signing, etc.
+
+# [user]
+#     email = work@example.com
+# [commit]
+#     gpgsign = true
+# [user]
+#     signingkey = ssh-ed25519 AAAA...

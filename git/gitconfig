@@ -1,0 +1,35 @@
+# ~/.gitconfig — synced across hosts. Per-host identity overrides go in
+# ~/.gitconfig.local (untracked, included at the bottom).
+
+[user]
+	name = Jona Heidsick
+	email = jona.heidsick@gmail.com
+
+[init]
+	defaultBranch = main
+
+[core]
+	editor = vim
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+
+[merge]
+	conflictStyle = zdiff3
+
+# GitHub via the gh CLI credential helper (portable: gh resolved from PATH)
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
+
+# Per-host overrides (identity, signing, etc.) — never tracked
+[include]
+	path = ~/.gitconfig.local

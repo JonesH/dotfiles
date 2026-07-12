@@ -1,0 +1,11 @@
+# ~/.profile — POSIX login shell (plain sh, display managers, etc.).
+# Interactive bash uses ~/.bash_profile → ~/.bashrc instead.
+
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -f "$HOME/.deno/env" ] && . "$HOME/.deno/env"
+
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) PATH="$HOME/.local/bin:$PATH" ;;
+esac
+export PATH
