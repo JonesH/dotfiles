@@ -37,11 +37,16 @@ install_one() {
     apt:*)   APT_PKGS+=("${spec#apt:}") ;;
     cargo:*) have cargo || { MANUAL+=("$bin: install rustup/cargo first"); return; }
              if [ "$DRY" = 1 ]; then log_ok "(dry) cargo install ${spec#cargo:}"; else cargo install "${spec#cargo:}"; fi ;;
-    script:*) local url="${spec#script:}"
+    script:*) local url="${spec#script:}" sh_args=""
+             # rustup's installer is the only one that prompts; -y makes it unattended.
+             case "$bin" in rustup) sh_args="-s -- -y" ;; esac
              if [ "$ALLOW_SCRIPTS" = 1 ] && [ "$DRY" != 1 ]; then
-               log "  curl -LsSf $url | sh"; curl -LsSf "$url" | sh
+               log "  curl -LsSf $url | sh $sh_args"
+               # sh_args must word-split; </dev/null so no installer can hang on a prompt
+               # shellcheck disable=SC2086
+               curl -LsSf "$url" | sh $sh_args </dev/null || log_warn "$bin installer failed"
              else
-               SCRIPTS+=("$bin	curl -LsSf $url | sh")
+               SCRIPTS+=("$bin	curl -LsSf $url | sh $sh_args")
              fi ;;
     builtin) log_skip "$bin (builtin on $OS)" ;;
     manual)  MANUAL+=("$bin: $notes") ;;
@@ -61,12 +66,22 @@ while IFS=$'\t' read -r bin mac deb notes; do
   case "$OS" in darwin) install_one "$bin" "$mac" "${notes:-}" ;; *) install_one "$bin" "$deb" "${notes:-}" ;; esac
 done < "$TSV"
 
-# batch apt install
+# batch apt install (non-interactive; never hang on a sudo/apt prompt)
 if [ "${#APT_PKGS[@]}" -gt 0 ]; then
   if [ "$DRY" = 1 ]; then
-    log_ok "(dry) sudo apt-get install -y ${APT_PKGS[*]}"
+    log_ok "(dry) apt-get install -y ${APT_PKGS[*]}"
   else
-    sudo apt-get update && sudo apt-get install -y "${APT_PKGS[@]}"
+    # Pick a privilege prefix without ever prompting: root → none; else sudo -n
+    # (passwordless). If neither works, defer to a manual step instead of blocking.
+    if [ "$(id -u)" = 0 ]; then SUDO=""
+    elif sudo -n true 2>/dev/null; then SUDO="sudo -n"
+    else SUDO=""; MANUAL+=("apt: run yourself: sudo apt-get install -y ${APT_PKGS[*]}"); fi
+    if [ "$SUDO" != "" ] || [ "$(id -u)" = 0 ]; then
+      DEBIAN_FRONTEND=noninteractive $SUDO apt-get update \
+        && DEBIAN_FRONTEND=noninteractive $SUDO apt-get install -y \
+             -o Dpkg::Options::=--force-confold "${APT_PKGS[@]}" \
+        || log_warn "apt install failed (see output above)"
+    fi
   fi
 fi
 
@@ -81,7 +96,8 @@ if [ -f "$UVL" ]; then
           # strip inline "# comment" from the trailing args, keep flags like --python 3.12
           rest="${rest%%#*}"
           if [ "$DRY" = 1 ]; then log_ok "(dry) uv tool install $name $rest"
-          # shellcheck disable=SC2086 -- intentional word-split so flags pass through
+          # intentional word-split so flags like --python 3.12 pass through
+          # shellcheck disable=SC2086
           else uv tool install "$name" $rest || log_warn "uv tool install $name failed"; fi ;;
         uvx)
           # materialise ~/.local/bin/<name> that execs the uvx command
