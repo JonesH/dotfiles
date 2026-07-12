@@ -8,7 +8,7 @@
 git	brew:git	apt:git
 gh	brew:gh	brew:gh	via Linuxbrew; apt alt: cli.github.com repo
 uv	brew:uv	brew:uv	via Linuxbrew (alt: astral installer)
-node	brew:node	apt:nodejs	or via nvm; Debian binary is `node` (pkg nodejs)
+node	brew:node	brew:node	current via Linuxbrew (apt trixie ships Node 20 LTS)
 pnpm	brew:pnpm	brew:pnpm	via Linuxbrew (alt: corepack enable pnpm)
 pipx	brew:pipx	apt:pipx	Debian 12+
 direnv	brew:direnv	apt:direnv
@@ -23,7 +23,6 @@ docker	cask:docker	-	Debian: host provides it (cloud-init installs docker-ce); s
 deno	brew:deno	brew:deno	via Linuxbrew; not in apt
 rustup	script:https://sh.rustup.rs	brew:rustup	provides cargo/rustc; Debian via Linuxbrew
 pyenv	brew:pyenv	brew:pyenv	via Linuxbrew
-nvm	brew:nvm	brew:nvm	shell function (not a PATH binary); via Linuxbrew, set NVM_DIR
 hcloud	brew:hcloud	brew:hcloud	via Linuxbrew; apt alt: hetznercloud/cli release binary
 kubectl	brew:kubernetes-cli	brew:kubernetes-cli	via Linuxbrew; apt alt: pkgs.k8s.io
 gsed	brew:gnu-sed	builtin	Linux `sed` is already GNU; macOS gets `gsed`

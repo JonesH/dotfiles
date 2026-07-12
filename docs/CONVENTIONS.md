@@ -24,7 +24,7 @@
    `bash/bashrc` / `bash/prompt.sh`.
 3. **Guard, don't branch-by-hostname.** Prefer `command -v tool` / `[ -d path ]` over
    hardcoding a machine. Real per-host needs go in `*.local`.
-4. **No hardcoded version paths.** Use `$(brew --prefix <keg>)`, `$NVM_DIR`, etc.
+4. **No hardcoded version paths.** Use `$(brew --prefix <keg>)`, `$PYENV_ROOT`, etc.
 5. **Register new files in the bootstrap symlink table** — an unlinked file isn't applied.
 6. After adding config, run `~/dotfiles/install/bootstrap.sh` (idempotent) to link it,
    and `dfsync` to propagate. Everything else self-syncs.

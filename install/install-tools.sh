@@ -39,7 +39,7 @@ install_one() {
     cargo:*) have cargo || { MANUAL+=("$bin: install rustup/cargo first"); return; }
              if [ "$DRY" = 1 ]; then log_ok "(dry) cargo install ${spec#cargo:}"; else cargo install "${spec#cargo:}"; fi ;;
     script:*) local url="${spec#script:}" sh_args=""
-             # Some installers (e.g. nvm) require bash, not sh; -y makes rustup unattended.
+             # Some install scripts assume bash, not sh; -y makes rustup unattended.
              case "$bin" in rustup) sh_args="-s -- -y" ;; esac
              if [ "$ALLOW_SCRIPTS" = 1 ] && [ "$DRY" != 1 ]; then
                log "  curl -LsSf $url | bash $sh_args"
@@ -73,7 +73,6 @@ fi
 while IFS=$'\t' read -r bin mac deb notes; do
   [ -z "${bin:-}" ] && continue
   case "$bin" in \#*) continue ;; esac
-  if [ "$bin" = nvm ]; then { [ -d "$HOME/.nvm" ] || { command -v brew >/dev/null 2>&1 && brew list nvm >/dev/null 2>&1; }; } && { log_skip "nvm (present)"; continue; }; fi
   have "$bin" && { log_skip "$bin (present)"; continue; }
   case "$OS" in darwin) install_one "$bin" "$mac" "${notes:-}" ;; *) install_one "$bin" "$deb" "${notes:-}" ;; esac
 done < "$TSV"

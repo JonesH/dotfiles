@@ -26,11 +26,4 @@ if command -v pyenv >/dev/null 2>&1; then
   eval "$(pyenv init - 2>/dev/null)"
 fi
 
-# NVM — standard (non-Homebrew) install location; Homebrew's is handled in os/darwin.sh
-export NVM_DIR="$HOME/.nvm"
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-  . "$NVM_DIR/nvm.sh" --no-use
-  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-fi
-
 export PATH

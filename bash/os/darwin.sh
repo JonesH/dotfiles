@@ -33,15 +33,6 @@ _path_prepend "$(brew --prefix 2>/dev/null)/opt/python@3.14/libexec/bin"
 _path_prepend "$(brew --prefix 2>/dev/null)/opt/openjdk@23/bin"
 _path_prepend "$HOME/.antigravity-ide/antigravity-ide/bin"
 
-# --- Homebrew NVM ----------------------------------------------------------
-export NVM_DIR="$HOME/.nvm"
-_hbnvm="$(brew --prefix nvm 2>/dev/null)"
-if [ -n "$_hbnvm" ] && [ -s "$_hbnvm/nvm.sh" ]; then
-  . "$_hbnvm/nvm.sh" --no-use
-  [ -s "$_hbnvm/etc/bash_completion.d/nvm" ] && . "$_hbnvm/etc/bash_completion.d/nvm"
-fi
-unset _hbnvm
-
 # --- macOS variants of the system-info aliases ----------------------------
 alias meminfo='top -l 1 -s 0 | grep PhysMem'
 alias cpuinfo='sysctl -n machdep.cpu.brand_string'
