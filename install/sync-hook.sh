@@ -1,5 +1,6 @@
 # sync-hook.sh — throttled, detached background trigger for install/sync.sh.
 # Sourced by interactive bash/zsh. NEVER blocks the prompt.
+# shellcheck shell=bash
 
 __df_sync_maybe() {
   local dir="$HOME/dotfiles" cache="$HOME/.cache/dotfiles"

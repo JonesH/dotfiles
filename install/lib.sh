@@ -1,4 +1,5 @@
 # lib.sh — shared helpers for bootstrap.sh / sync.sh. Sourced, not executed.
+# shellcheck shell=bash
 
 # Repo root (this file lives in install/)
 DOTFILES_DIR="${DOTFILES_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.." && pwd)}"

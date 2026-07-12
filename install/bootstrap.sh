@@ -90,12 +90,14 @@ if [ ! -f "$HOME/.bash_tokens" ]; then
     log_ok "seeded ~/.bash_tokens (chmod 600) — fill in your tokens"
   fi
 else
+  # shellcheck disable=SC2088  # literal path in a log message, not a real path to expand
   log_skip "~/.bash_tokens (exists)"
 fi
 
 # --- optional package baseline (delegates to install-tools.sh) -------------
 if [ "$DO_PACKAGES" = 1 ]; then
   log "installing CLI tools from packages/tools.tsv + uv-tools.txt…"
+  # shellcheck disable=SC2046  # deliberate: expands to --check or to nothing
   "$DOTFILES_DIR/install/install-tools.sh" $([ "$DF_DRYRUN" = 1 ] && echo --check)
 fi
 

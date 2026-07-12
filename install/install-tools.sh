@@ -10,6 +10,7 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$DOTFILES_DIR/install/lib.sh"
 
 DRY=0; ALLOW_SCRIPTS=0
+# shellcheck disable=SC2034  # DF_QUIET is consumed by the sourced lib.sh log_* helpers
 for a in "$@"; do
   case "$a" in
     --check|--dry-run) DRY=1 ;;
@@ -42,9 +43,9 @@ install_one() {
              case "$bin" in rustup) sh_args="-s -- -y" ;; esac
              if [ "$ALLOW_SCRIPTS" = 1 ] && [ "$DRY" != 1 ]; then
                log "  curl -LsSf $url | sh $sh_args"
-               # sh_args must word-split; </dev/null so no installer can hang on a prompt
+               # sh_args must word-split (rustup gets `-s -- -y`, the only prompting installer)
                # shellcheck disable=SC2086
-               curl -LsSf "$url" | sh $sh_args </dev/null || log_warn "$bin installer failed"
+               curl -LsSf "$url" | sh $sh_args || log_warn "$bin installer failed"
              else
                SCRIPTS+=("$bin	curl -LsSf $url | sh $sh_args")
              fi ;;
@@ -95,9 +96,9 @@ if [ -f "$UVL" ]; then
         install)
           # strip inline "# comment" from the trailing args, keep flags like --python 3.12
           rest="${rest%%#*}"
-          if [ "$DRY" = 1 ]; then log_ok "(dry) uv tool install $name $rest"
-          # intentional word-split so flags like --python 3.12 pass through
+          # word-split $rest so flags like `--python 3.12` pass through as separate args
           # shellcheck disable=SC2086
+          if [ "$DRY" = 1 ]; then log_ok "(dry) uv tool install $name $rest"
           else uv tool install "$name" $rest || log_warn "uv tool install $name failed"; fi ;;
         uvx)
           # materialise ~/.local/bin/<name> that execs the uvx command
