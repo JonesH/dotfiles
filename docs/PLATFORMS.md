@@ -8,7 +8,7 @@
 
 ## How platform differences are handled
 
-- One dispatch point (in `bash/bashrc` and `zsh/zshrc`):
+- One dispatch point (in `bash/bashrc`):
   ```sh
   case "$(uname -s)" in
     Darwin) . os/darwin.sh ;;
@@ -25,5 +25,5 @@
 
 ## Adding a platform
 
-Create `bash/os/<name>.sh`, add a branch to the dispatch `case` in `bash/bashrc` and
-`zsh/zshrc`, and (if needed) a package list under `packages/`.
+Create `bash/os/<name>.sh`, add a branch to the dispatch `case` in `bash/bashrc`,
+and (if needed) entries in `packages/tools.tsv`.

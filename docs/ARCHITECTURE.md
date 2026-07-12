@@ -16,12 +16,11 @@ bootstrap to add the new links.
    └─ sources ~/.config/bash/os/<darwin|linux|wsl>.sh                  (platform layer)
    └─ sources ~/.bash_tokens, ~/.bashrc.local                         (untracked, if present)
 
-~/.zshrc   (symlink → zsh/zshrc)   # secondary shell
-   └─ oh-my-zsh, then the SAME shared modules + platform layer
+~/.zshenv  (symlink → zsh/zshenv)  # only zsh file kept; bash is the login shell
 ```
 
-- **Shared modules** are POSIX-safe so both bash and zsh can source them → aliases,
-  env, paths, and functions are defined exactly once.
+- **Shared modules** are POSIX-safe (they were designed so zsh could also source them,
+  and remain so should zsh ever be revived) → aliases, env, paths, functions defined once.
 - **Platform differences** live only in `bash/os/*.sh` (and guards inside modules),
   never as duplicated whole configs.
 - **bash-only** behaviour (`shopt`, completions, `PROMPT_COMMAND`, prompt escapes)

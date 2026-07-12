@@ -15,7 +15,8 @@ Idempotent, safe to re-run. It:
 
 Flags:
 - `--check` — dry run; print intended actions, change nothing.
-- `--packages` — also install the package baseline (`brew bundle` / apt from `packages/`).
+- `--packages` — also install CLI tools via `install/install-tools.sh` (reads
+  `packages/tools.tsv` + `packages/uv-tools.txt`; idempotent, skips tools already on PATH).
 - `--quiet` — minimal output (used by the sync engine).
 
 Backups are never deleted automatically — they're your rollback.

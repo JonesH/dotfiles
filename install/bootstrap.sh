@@ -53,9 +53,7 @@ bash/prompt.sh|.config/bash/prompt.sh
 bash/os/darwin.sh|.config/bash/os/darwin.sh
 bash/os/linux.sh|.config/bash/os/linux.sh
 bash/os/wsl.sh|.config/bash/os/wsl.sh
-zsh/zshrc|.zshrc
 zsh/zshenv|.zshenv
-zsh/zprofile|.zprofile
 git/gitconfig|.gitconfig
 git/gitignore_global|.config/git/ignore
 ssh/config|.ssh/config
@@ -95,25 +93,10 @@ else
   log_skip "~/.bash_tokens (exists)"
 fi
 
-# --- optional package baseline ---------------------------------------------
-if [ "$DO_PACKAGES" = 1 ] && [ "$DF_DRYRUN" != 1 ]; then
-  case "$OS" in
-    darwin)
-      if command -v brew >/dev/null 2>&1; then
-        log "installing Homebrew packages…"
-        brew bundle --file "$DOTFILES_DIR/packages/Brewfile"
-      else
-        log_warn "brew not found; skipping --packages"
-      fi ;;
-    linux|wsl)
-      if command -v apt-get >/dev/null 2>&1; then
-        log "installing apt packages…"
-        pkgs="$(grep -vE '^\s*#|^\s*$' "$DOTFILES_DIR/packages/apt.txt")"
-        sudo apt-get update && sudo apt-get install -y $pkgs
-      else
-        log_warn "apt-get not found; skipping --packages"
-      fi ;;
-  esac
+# --- optional package baseline (delegates to install-tools.sh) -------------
+if [ "$DO_PACKAGES" = 1 ]; then
+  log "installing CLI tools from packages/tools.tsv + uv-tools.txt…"
+  "$DOTFILES_DIR/install/install-tools.sh" $([ "$DF_DRYRUN" = 1 ] && echo --check)
 fi
 
 if [ "$DF_DRYRUN" = 1 ]; then log_ok "bootstrap complete (dry run)"; else log_ok "bootstrap complete"; fi

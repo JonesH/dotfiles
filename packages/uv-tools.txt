@@ -1,0 +1,16 @@
+# uv-managed tools. Consumed by install/install-tools.sh (needs `uv`). Two forms:
+#   install <package>            → `uv tool install <package>` (persistent CLI on PATH)
+#   uvx <name> <command...>      → writes ~/.local/bin/<name> that execs <command> "$@"
+#                                  (a stable wrapper around an ephemeral uvx invocation)
+# Extend freely — this is the source of truth for uv-based tooling.
+
+# --- uv tool install (persistent) ---
+install ruff
+install ty
+install aider-chat
+
+# --- uvx wrappers (ephemeral, wrapped as ~/.local/bin/<name>) ---
+uvx fast-agent-mcp uvx fast-agent-mcp
+# Note: `clai` and `aider` stay as shell aliases (bash/aliases.sh) because they
+# thread in $OPENROUTER_API_KEY / $FAV_MODEL at call time. Convert to wrappers
+# here only if you want them available to non-interactive shells too.

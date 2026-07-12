@@ -9,6 +9,8 @@
 | Platform-specific behaviour | `bash/os/{darwin,linux,wsl}.sh` | never fork a whole config |
 | A new dotfile | author it under the relevant dir | add it to the symlink table in `install/bootstrap.sh` |
 | A `~/.local/bin` script | `scripts/` (executable) | add to the symlink table |
+| A CLI tool (needs installing) | a row in `packages/tools.tsv` (binary ⇥ macos ⇥ debian ⇥ notes) | `install/install-tools.sh` installs it per-OS |
+| A uv/uvx tool | `packages/uv-tools.txt` (`install <pkg>` or `uvx <name> <cmd>`) | installer runs `uv tool install` / writes a wrapper |
 | A secret / token | **`~/.bash_tokens`** (untracked) | reference it as `$VAR`; add the name to `secrets.example/bash_tokens.example` |
 | Anything machine-specific | a `*.local` file (`~/.bashrc.local`, `~/.ssh/config.local`, `~/.gitconfig.local`) | it's sourced if present, never tracked |
 

@@ -1,10 +1,13 @@
-# ~/.zshenv — sourced for every zsh invocation. Keep minimal and fast.
+# ~/.zshenv — the ONLY zsh config kept. bash is the login shell; zsh is unused
+# interactively (last used 2025-08-31), so zshrc/zprofile were removed. This file
+# exists only so the rare non-interactive `zsh -c` a tool might issue degrades
+# gracefully. Sourced for every zsh invocation — keep minimal and fast.
 
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # lean-ctx passthrough stubs: ensure _lc/_lc_compress exist in ALL zsh contexts
 # (non-interactive subshells, eval, agent harnesses) so aliases that reference
-# them degrade gracefully. The full shell-hook.zsh overrides these via .zshrc.
+# them degrade gracefully instead of erroring.
 _lc()          { command "$@"; }
 _lc_compress() { command "$@"; }
 if [[ -z "$LEAN_CTX_ACTIVE" && -n "$ZSH_EXECUTION_STRING" ]] && command -v lean-ctx &>/dev/null; then

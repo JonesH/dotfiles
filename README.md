@@ -34,12 +34,12 @@ Run a sync by hand anytime with `dfsync` (alias for `install/sync.sh`).
 |---|---|
 | `install/` | `bootstrap.sh`, `sync.sh`, `update.sh`, `lib.sh`, `git-hooks/pre-commit` |
 | `bash/` | thin `bashrc` + shared modules (`env`,`paths`,`aliases`,`functions`,`prompt`) + `os/{darwin,linux,wsl}.sh` |
-| `zsh/` | thin zsh that reuses the shared bash modules (secondary shell) |
+| `zsh/` | minimal `zshenv` only (bash is the login shell; zsh is unused — see `docs/PLATFORMS.md`) |
 | `git/` | `gitconfig`, `gitignore_global` |
 | `ssh/` | sanitized `config` (infra hosts live in untracked `~/.ssh/config.local`) |
 | `zed/` | `keymap.json` (settings deferred — see `zed/README.md`) |
 | `scripts/` | hand-authored `~/.local/bin` helpers |
-| `packages/` | optional `Brewfile` / `apt.txt` baselines |
+| `packages/` | `tools.tsv` (per-OS CLI install map) + `uv-tools.txt`; applied by `install/install-tools.sh` |
 | `secrets.example/` | templates for `~/.bash_tokens`, `~/.ssh/config.local`, `~/.gitconfig.local` |
 | `claude/`, `mcp/`, `claude-mem/` | **deferred** — see each README (secret/scope reasons) |
 | `docs/` | architecture, bootstrap, adding a host, platforms, conventions |
