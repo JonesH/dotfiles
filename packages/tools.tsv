@@ -8,7 +8,8 @@
 git	brew:git	apt:git
 gh	brew:gh	brew:gh	via Linuxbrew; apt alt: cli.github.com repo
 uv	brew:uv	brew:uv	via Linuxbrew (alt: astral installer)
-node	brew:node	brew:node	current via Linuxbrew (apt trixie ships Node 20 LTS)
+npm     brew:npm    brew:npm    current via Linuxbrew
+node	brew:node	brew:node	current via Linuxbrew
 pnpm	brew:pnpm	brew:pnpm	via Linuxbrew (alt: corepack enable pnpm)
 pipx	brew:pipx	apt:pipx	Debian 12+
 direnv	brew:direnv	apt:direnv
