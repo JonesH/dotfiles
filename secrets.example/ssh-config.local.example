@@ -9,6 +9,10 @@
 #     User deploy
 #     IdentityFile ~/.ssh/id_ed25519
 #     IdentitiesOnly yes
+#     # Forward your local agent so git@github.com on this host uses YOUR key
+#     # (already on GitHub) — no per-host key needed. ONLY on hosts you trust:
+#     # root there can use your agent while connected. Never put this on "Host *".
+#     ForwardAgent yes
 
 # Host storagebox
 #     HostName uXXXXXX.your-storagebox.de

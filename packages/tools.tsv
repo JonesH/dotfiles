@@ -14,6 +14,8 @@ pipx	brew:pipx	apt:pipx	Debian 12+
 direnv	brew:direnv	apt:direnv
 jq	brew:jq	apt:jq
 vim	brew:vim	apt:vim
+rg	brew:ripgrep	apt:ripgrep	fast grep
+bat	brew:bat	apt:bat	cat with syntax highlight; Debian binary is `batcat` (aliased to bat in os/linux.sh)
 delta	brew:git-delta	apt:git-delta	git pager; pre-trixie Debian: cargo:git-delta
 glow	brew:glow	manual	Debian: Charm apt repo (repo.charm.sh)
 docker	cask:docker	script:https://get.docker.com	Desktop on macOS / convenience script on Debian
