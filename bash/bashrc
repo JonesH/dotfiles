@@ -52,8 +52,6 @@ case $- in
     # aider rc
     [ -f "$HOME/.aiderrc" ] && . "$HOME/.aiderrc"
 
-    # lean-ctx shell hook
-    [ -f "$HOME/.lean-ctx/shell-hook.bash" ] && . "$HOME/.lean-ctx/shell-hook.bash"
 
     # dotfiles background self-sync (throttled, detached, non-blocking)
     [ -r "$HOME/dotfiles/install/sync-hook.sh" ] && . "$HOME/dotfiles/install/sync-hook.sh"
