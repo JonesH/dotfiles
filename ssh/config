@@ -11,14 +11,10 @@ Include ~/.ssh/config.local
 Include ~/.ssh/config.d/*
 
 Host github.com
-  IgnoreUnknown UseKeychain
   AddKeysToAgent yes
-  Match exec "test $(uname) = Darwin"
-    UseKeychain yes
   IdentityFile ~/.ssh/id_ed25519
 
 Host *
-  IgnoreUnknown UseKeychain
   StrictHostKeyChecking no
   User jones
   IdentityFile ~/.ssh/id_ed25519
