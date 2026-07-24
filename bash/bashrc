@@ -63,3 +63,7 @@ esac
 
 # --- Per-host overrides (never tracked) ------------------------------------
 [ -f "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/jonah/.local/bin:$PATH"

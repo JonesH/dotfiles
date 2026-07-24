@@ -6,3 +6,19 @@
 if [ "${TERM_PROGRAM:-}" = "iTerm.app" ]; then
   [ -e "$HOME/.iterm2_shell_integration.bash" ] && . "$HOME/.iterm2_shell_integration.bash"
 fi
+
+# Added by Antigravity IDE
+export PATH="/Users/jonah/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+# Added by Antigravity IDE
+export PATH="/Users/jonah/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+# Added by Antigravity IDE
+export PATH="/Users/jonah/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+# Added by Antigravity IDE
+export PATH="/Users/jonah/.antigravity-ide/antigravity-ide/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/jonah/.local/bin:$PATH"
