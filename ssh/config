@@ -15,6 +15,7 @@ Host github.com
   IdentityFile ~/.ssh/id_ed25519
 
 Host *
+  UserKnownHostsFile /dev/null
   StrictHostKeyChecking no
   User jones
   IdentityFile ~/.ssh/id_ed25519
