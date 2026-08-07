@@ -67,3 +67,4 @@ esac
 
 # Added by Antigravity CLI installer
 export PATH="/Users/jonah/.local/bin:$PATH"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
