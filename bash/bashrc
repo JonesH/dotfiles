@@ -1,6 +1,13 @@
 # ~/.bashrc — thin loader. Real config lives in ~/.config/bash/*.sh (symlinked
 # from ~/dotfiles/bash/). Edit those, not this file. Synced across hosts.
 
+# --- Locale guard -----------------------------------------------------------
+# macOS Terminal/iTerm2 can export empty LC_* vars; homebrew bash 5.3 emits
+# "setlocale: cannot change locale" warnings for those. Replace with C.
+[ -z "${LC_ALL:-}" ] && unset LC_ALL
+[ -n "$LC_CTYPE" ] || export LC_CTYPE=C
+[ -n "$LC_COLLATE" ] || export LC_COLLATE=C
+
 # --- bash-only history behaviour -------------------------------------------
 shopt -s histappend
 shopt -s checkwinsize
@@ -67,4 +74,3 @@ esac
 
 # Added by Antigravity CLI installer
 export PATH="/Users/jonah/.local/bin:$PATH"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
