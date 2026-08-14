@@ -17,6 +17,7 @@ id_*
 .DS_Store
 *.swp
 *~
+.serena/
 
 # Local sync runtime (should never be inside the repo, but just in case)
 .cache/
