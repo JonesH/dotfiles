@@ -22,7 +22,9 @@ export FAV_MODEL="$FAV_GROK"
 
 # --- Misc tooling env ------------------------------------------------------
 export COMPOSE_BAKE=true
-export OLLAMA_API_BASE=http://localhost:11343
+export OLLAMA_API_BASE=http://localhost:11434
+export OLLAMA_KEEP_ALIVE=-1
+export OLLAMA_NUM_PARALLEL=2
 export SKILLS_DIR="${HOME}/skills"
 
 # Claude Desktop config path (macOS location; harmless if absent elsewhere)
