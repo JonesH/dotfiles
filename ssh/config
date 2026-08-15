@@ -11,8 +11,8 @@ Include ~/.ssh/config.local
 Include ~/.ssh/config.d/*
 
 Host github.com
-  UserKnownHostsFile /dev/null
-  StrictHostKeyChecking no
+	#  UserKnownHostsFile /dev/null
+	#  StrictHostKeyChecking no
   AddKeysToAgent yes
   IdentityFile ~/.ssh/id_ed25519
 
