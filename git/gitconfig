@@ -4,6 +4,7 @@
 [user]
 	name = Jona Heidsick
 	email = jona.heidsick@gmail.com
+	signingkey = /Users/jonah/.ssh/astrocloud_signing.pub
 
 [init]
 	defaultBranch = main
@@ -33,3 +34,7 @@
 # Per-host overrides (identity, signing, etc.) — never tracked
 [include]
 	path = ~/.gitconfig.local
+[gpg]
+	format = ssh
+[tag]
+	gpgsign = true
