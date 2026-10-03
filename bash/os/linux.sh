@@ -14,7 +14,10 @@ elif [ -r /etc/bash_completion ]; then
 fi
 
 # --- Compilation flags -----------------------------------------------------
-export MAKEFLAGS="-j$(nproc 2>/dev/null || echo 4)"
+# Host-dependent: CPUs - 1 (min 1) so the machine stays responsive during builds.
+_ncpu="$(nproc 2>/dev/null || echo 2)"
+export MAKEFLAGS="-j$(( _ncpu > 1 ? _ncpu - 1 : 1 ))"
+unset _ncpu
 
 # On Debian the `bat` package installs the binary as `batcat`
 if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then

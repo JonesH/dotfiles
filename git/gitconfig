@@ -4,7 +4,7 @@
 [user]
 	name = Jona Heidsick
 	email = jona.heidsick@gmail.com
-	signingkey = /Users/jonah/.ssh/astrocloud_signing.pub
+	signingkey = ~/.ssh/id_ed25519.pub
 
 [init]
 	defaultBranch = main

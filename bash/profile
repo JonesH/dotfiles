@@ -1,7 +1,3 @@
-# The following lines were added by Docker Desktop to add commands to your PATH.
-export PATH="$PATH:/Users/jonah/.docker/bin"
-# End of Docker Desktop section.
-
 # ~/.profile — POSIX login shell (plain sh, display managers, etc.).
 # Interactive bash uses ~/.bash_profile → ~/.bashrc instead.
 
@@ -13,7 +9,3 @@ case ":$PATH:" in
   *) PATH="$HOME/.local/bin:$PATH" ;;
 esac
 export PATH
-
-
-# Added by Antigravity CLI installer
-export PATH="/Users/jonah/.local/bin:$PATH"

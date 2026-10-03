@@ -8,3 +8,8 @@
 .DS_Store
 *.swp
 *~
+.idea/
+
+# Python
+__pycache__/
+.coverage

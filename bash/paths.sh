@@ -19,6 +19,10 @@ _path_append "$HOME/bin"
 # LM Studio CLI (present on machines where it's installed)
 _path_append "$HOME/.lmstudio/bin"
 
+# Docker Desktop / Antigravity (guarded; were hardcoded /Users/<name> paths)
+_path_append "$HOME/.docker/bin"
+_path_prepend "$HOME/.antigravity-ide/antigravity-ide/bin"
+
 # pyenv (guarded; init only if the binary resolves)
 export PYENV_ROOT="$HOME/.pyenv"
 _path_prepend "$PYENV_ROOT/bin"

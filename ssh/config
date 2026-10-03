@@ -11,13 +11,13 @@ Include ~/.ssh/config.local
 Include ~/.ssh/config.d/*
 
 Host github.com
-	#  UserKnownHostsFile /dev/null
-	#  StrictHostKeyChecking no
   AddKeysToAgent yes
   IdentityFile ~/.ssh/id_ed25519
 
+# Host keys are verified: unknown hosts are recorded on first connect
+# (accept-new), a CHANGED key is refused. For throwaway hosts, override
+# per-host in ~/.ssh/config.local.
 Host *
-  UserKnownHostsFile /dev/null
-  StrictHostKeyChecking no
+  StrictHostKeyChecking accept-new
   User jones
   IdentityFile ~/.ssh/id_ed25519
