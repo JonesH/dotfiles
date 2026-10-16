@@ -70,3 +70,6 @@ esac
 
 # --- Per-host overrides (never tracked) ------------------------------------
 [ -f "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"
+
+# opencode
+export PATH=/Users/jonah/.opencode/bin:$PATH
