@@ -39,7 +39,7 @@ alias myip='curl -s ifconfig.me'
 
 # --- Docker (only if installed) --------------------------------------------
 if command -v docker >/dev/null 2>&1; then
-  alias dps=docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
+  alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
   alias dpsa='dps -a'
   alias di='docker images'
   alias dex='docker exec -it'
