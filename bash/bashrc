@@ -74,4 +74,4 @@ esac
 # opencode
 export PATH=/Users/jonah/.opencode/bin:$PATH
 
-source '/home/deploy/.bash_completions/nuk.sh'
+source "$HOME/.bash_completions/nuk.sh"
